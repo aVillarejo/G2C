@@ -159,7 +159,7 @@ export default class Login extends Component {
 
   _fetchLogin = () => {
     this.setState({ ActivityIndicator_Loading: true }, () => {
-      fetch("http://192.168.1.73/Serv_Web/Iniciar_Sesion.php", {
+      fetch("http://192.168.1.67/Serv_Web/Iniciar_Sesion.php", {
         method: "POST",
         headers: {
           Accept: "application/json",
