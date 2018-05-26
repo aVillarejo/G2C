@@ -1,0 +1,3 @@
+rootProject.name = 'G2C'
+
+include ':app'
