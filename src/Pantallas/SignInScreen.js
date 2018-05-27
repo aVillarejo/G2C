@@ -16,6 +16,7 @@ import {
   Alert
 } from "react-native";
 import { Button } from "react-native-elements";
+import ServerURL from "../Config/ServerURL";
 
 export default class Login extends Component {
   constructor(props) {
@@ -37,21 +38,10 @@ export default class Login extends Component {
     if (this.state.ActivityIndicator_Loading) {
       return (
         <View
-          style={{
-            flex: 1,
-            paddingTop: 20,
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}
+          style={styles.container}
         >
           <View
-            style={{
-              flex: 1,
-              backgroundColor: "rgba(120, 4,90,0.3)",
-              paddingTop: 20,
-              alignItems: "center",
-              justifyContent: "center"
-            }}
+            style={styles.container}
           >
             <Text>Cargando</Text>
             <ActivityIndicator />
@@ -159,7 +149,7 @@ export default class Login extends Component {
 
   _fetchLogin = () => {
     this.setState({ ActivityIndicator_Loading: true }, () => {
-      fetch("http://192.168.1.67/Serv_Web/Iniciar_Sesion.php", {
+      fetch(`${ServerURL}/Iniciar_Sesion.php`, {
         method: "POST",
         headers: {
           Accept: "application/json",

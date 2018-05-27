@@ -8,65 +8,63 @@ import {
   Platform,
   TouchableOpacity,
   TextInput,
+  Alert,
   Button
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
+import ServerURL from "../../Config/ServerURL";
 
 export default class EditStudentRecordActivity extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      TextInput_Student_ID: "",
-      TextInput_Student_Name: "",
-      TextInput_Student_Class: "",
-      TextInput_Student_PhoneNumber: "",
-      TextInput_Student_Email: ""
+      Id: "",
+      Nombre: "",
+      Tipo: "",
+      Telefono: "",
+      Correo: "",
+      Direccion:"",
+      Municipio:"",
+      Estado:"",
     };
   }
 
   componentDidMount() {
     // Received Student Details Sent From Previous Activity and Set Into State.
     this.setState({
-      TextInput_Student_ID: this.props.navigation.state.params.obj.Id,
-      TextInput_Student_Name: this.props.navigation.state.params.obj.Nombre,
-      TextInput_Student_Class: this.props.navigation.state.params.obj.Tipo,
-      TextInput_Student_PhoneNumber: this.props.navigation.state.params.obj
-        .Telefono,
-      TextInput_Student_Email: this.props.navigation.state.params.obj.Correo
+      Id: this.props.navigation.state.params.obj.Id,
+      Nombre: this.props.navigation.state.params.obj.Nombre,
+      Tipo: this.props.navigation.state.params.obj.Tipo,
+      Telefono: this.props.navigation.state.params.obj.Telefono,
+      Correo: this.props.navigation.state.params.obj.Correo
     });
   }
 
   static navigationOptions = {
-    title: "EditStudentRecordActivity"
+    title: "Actualizar Usuario"
   };
 
   UpdateStudentRecord = () => {
-    fetch(
-      "https://reactnativecode.000webhostapp.com/Student/UpdateStudentRecord.php",
-      {
+    fetch(`${ServerURL}/UpdateUsers.php`, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          student_id: this.state.TextInput_Student_ID,
-
-          student_name: this.state.TextInput_Student_Name,
-
-          student_class: this.state.TextInput_Student_Class,
-
-          student_phone_number: this.state.TextInput_Student_PhoneNumber,
-
-          student_email: this.state.TextInput_Student_Email
+          Id: this.state.Id,
+          Nombre: this.state.Nombre,
+          Tipo: this.state.Tipo,
+          Telefono: this.state.Telefono,
+          Correo: this.state.Correo
         })
       }
     )
       .then(response => response.json())
       .then(responseJson => {
         // Showing response message coming from server updating records.
-        Alert.alert(responseJson);
+        Alert.alert(responseJson );
       })
       .catch(error => {
         console.error(error);
@@ -74,23 +72,20 @@ export default class EditStudentRecordActivity extends Component {
   };
 
   DeleteStudentRecord = () => {
-    fetch(
-      "https://reactnativecode.000webhostapp.com/Student/DeleteStudentRecord.php",
-      {
+    fetch(`${ServerURL}/UpdateUsers.php`, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          student_id: this.state.TextInput_Student_ID
+          student_id: this.state.Id
         })
       }
     )
       .then(response => response.json())
       .then(responseJson => {
         // Showing response message coming from server after inserting records.
-        Alert.alert(responseJson);
       })
       .catch(error => {
         console.error(error);
@@ -100,60 +95,75 @@ export default class EditStudentRecordActivity extends Component {
   };
 
   render() {
-    console.warn(this.state);
     return (
       <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 20, textAlign: "center", marginBottom: 7 }}>
-          {" "}
-          Edit Student Record Form{" "}
-        </Text>
+        
 
         <TextInput
-          placeholder="Student Name Shows Here"
-          value={this.state.TextInput_Student_Name}
+          placeholder="Nombre"
+          value={this.state.Nombre}
           onChangeText={TextInputValue =>
-            this.setState({ TextInput_Student_Name: TextInputValue })
+            this.setState({ Nombre: TextInputValue })
+          }
+          underlineColorAndroid="transparent"
+          style={styles.TextInputStyleClass}
+        />
+         <TextInput
+          placeholder="Correo"
+          value={this.state.Correo}
+          onChangeText={TextInputValue =>
+            this.setState({ Correo: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
 
         <TextInput
-          placeholder="Student Class Shows Here"
-          value={this.state.TextInput_Student_Class}
+          placeholder="Telefono"
+          value={this.state.Telefono}
           onChangeText={TextInputValue =>
-            this.setState({ TextInput_Student_Class: TextInputValue })
+            this.setState({ Telefono: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
 
         <TextInput
-          placeholder="Student Phone Number Shows Here"
-          value={this.state.TextInput_Student_PhoneNumber}
+          placeholder="Direccion"
+          value={this.state.Direccion}
           onChangeText={TextInputValue =>
-            this.setState({ TextInput_Student_PhoneNumber: TextInputValue })
+            this.setState({ Direccion: TextInputValue })
+          }
+          underlineColorAndroid="transparent"
+          style={styles.TextInputStyleClass}
+        />
+        <TextInput
+          placeholder="Estdo"
+          value={this.state.Estado}
+          onChangeText={TextInputValue =>
+            this.setState({ Estdo: TextInputValue })
+          }
+          underlineColorAndroid="transparent"
+          style={styles.TextInputStyleClass}
+        />
+        <TextInput
+          placeholder="Municipio"
+          value={this.state.Municipio}
+          onChangeText={TextInputValue =>
+            this.setState({ Municipio: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
 
-        <TextInput
-          placeholder="Student Email Shows Here"
-          value={this.state.TextInput_Student_Email}
-          onChangeText={TextInputValue =>
-            this.setState({ TextInput_Student_Email: TextInputValue })
-          }
-          underlineColorAndroid="transparent"
-          style={styles.TextInputStyleClass}
-        />
+       
 
         <TouchableOpacity
           activeOpacity={0.4}
           style={styles.TouchableOpacityStyle}
           onPress={this.UpdateStudentRecord}
         >
-          <Text style={styles.TextStyle}> UPDATE STUDENT RECORD </Text>
+          <Text style={styles.TextStyle}>Actualizar Datos</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -161,7 +171,7 @@ export default class EditStudentRecordActivity extends Component {
           style={styles.TouchableOpacityStyle}
           onPress={this.DeleteStudentRecord}
         >
-          <Text style={styles.TextStyle}> DELETE CURRENT RECORD </Text>
+          <Text style={styles.TextStyle}>Eliminar Usuario</Text>
         </TouchableOpacity>
       </View>
     );

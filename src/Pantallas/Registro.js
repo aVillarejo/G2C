@@ -14,6 +14,7 @@ import {
   StatusBar
 } from "react-native";
 import { Button } from "react-native-elements";
+import ServerURL from "../Config/ServerURL";
 
 export default class Register extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ export default class Register extends Component {
 
   Insert_Data_Into_MySQL = () => {
     this.setState({ ActivityIndicator_Loading: true }, () => {
-      fetch("http://192.168.1.69/Serv_Web/Registrar_Usuario.php", {
+      fetch(`${ServerURL}/Registrar_Usuario.php`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -69,7 +70,7 @@ export default class Register extends Component {
               responseJsonFromServer.msg,
               [
                 {
-                  text: "OK",
+                  text: " OK ",
                   onPress: () => console.log("OK Pressed")
                 }
               ],
