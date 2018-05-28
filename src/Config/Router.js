@@ -71,13 +71,53 @@ const adminUsersStack = createStackNavigator({
   UsersList: UsersList,
   UserDetails: UserDetails
 });
-const AdminStack = createBottomTabNavigator({
-  Tab1: AdminHomeScreen,
-  Usuarios: adminUsersStack,
-  Servicios: ServiciosList,
-  Tab4: AdminSettingsScreen,
-  Tab5: AdminSettingsScreen
-});
+const AdminStack = createBottomTabNavigator(
+  {
+    Tab1: AdminHomeScreen,
+    Usuarios: adminUsersStack,
+    Servicios: ServiciosList,
+    Categorias: AdminSettingsScreen,
+    Contratos: AdminSettingsScreen
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "Usuarios") {
+          iconName = `ios-contacts${focused ? "" : "-outline"}`;
+        } else if (routeName === "Tab1") {
+          iconName = `ios-home${focused ? "" : "-outline"}`;
+        } else if (routeName === "Servicios") {
+          iconName = `ios-list-box${focused ? "" : "-outline"}`;
+        } else if (routeName === "Categorias") {
+          iconName = `ios-pricetags${focused ? "" : "-outline"}`;
+        } else if (routeName === "Contratos") {
+          iconName = `ios-copy${focused ? "" : "-outline"}`;
+        }
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={25} color={tintColor} />;
+      }
+    }),
+    tabBarOptions: {
+      activeTintColor: "purple",
+      inactiveTintColor: "gray"
+    }
+  }
+);
+//   {
+//     lazy: false,
+//     tabBarOptions: {
+//       activeTintColor: "purple",
+//       pressColor: "blue",
+//       inactiveTintColor: "#373738",
+//       showIcon: true,
+//       showLabel: true,
+//       style: { backgroundColor: "#FFFAD2" }
+//     }
+//   }
+// );
 
 export default createSwitchNavigator(
   {
