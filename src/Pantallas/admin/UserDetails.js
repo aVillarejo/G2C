@@ -14,7 +14,7 @@ import {
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
 
-export default class EditStudentRecordActivity extends Component {
+export default class UserDetails extends Component {
   constructor(props) {
     super(props);
 
