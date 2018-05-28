@@ -37,12 +37,8 @@ export default class Login extends Component {
   render() {
     if (this.state.ActivityIndicator_Loading) {
       return (
-        <View
-          style={styles.container}
-        >
-          <View
-            style={styles.container}
-          >
+        <View style={styles.container}>
+          <View style={styles.container}>
             <Text>Cargando</Text>
             <ActivityIndicator />
           </View>
@@ -195,7 +191,13 @@ export default class Login extends Component {
             [
               {
                 text: "OK",
-                onPress: () => console.log(error)
+                onPress: () => {
+                  this.setState({
+                    correo: "",
+                    pass: ""
+                  });
+                  console.log(error);
+                }
               }
             ],
             { cancelable: false }
