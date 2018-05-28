@@ -24,9 +24,9 @@ export default class EditStudentRecordActivity extends Component {
       Tipo: "",
       Telefono: "",
       Correo: "",
-      Direccion:"",
-      Municipio:"",
-      Estado:"",
+      Direccion: "",
+      Municipio: "",
+      Estado: ""
     };
   }
 
@@ -35,6 +35,9 @@ export default class EditStudentRecordActivity extends Component {
     this.setState({
       Id: this.props.navigation.state.params.obj.Id,
       Nombre: this.props.navigation.state.params.obj.Nombre,
+      Direccion: this.props.navigation.state.params.obj.Direccion,
+      Municipio: this.props.navigation.state.params.obj.Municipio,
+      Estado: this.props.navigation.state.params.obj.Estado,
       Tipo: this.props.navigation.state.params.obj.Tipo,
       Telefono: this.props.navigation.state.params.obj.Telefono,
       Correo: this.props.navigation.state.params.obj.Correo
@@ -47,24 +50,39 @@ export default class EditStudentRecordActivity extends Component {
 
   UpdateStudentRecord = () => {
     fetch(`${ServerURL}/UpdateUsers.php`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          Id: this.state.Id,
-          Nombre: this.state.Nombre,
-          Tipo: this.state.Tipo,
-          Telefono: this.state.Telefono,
-          Correo: this.state.Correo
-        })
-      }
-    )
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Id: this.state.Id,
+        Nombre: this.state.Nombre,
+        Tipo: this.state.Tipo,
+        Telefono: this.state.Telefono,
+        Correo: this.state.Correo,
+        Municipio: this.state.Municipio,
+        Estado: this.state.Estado,
+        Direccion: this.state.Direccion
+      })
+    })
       .then(response => response.json())
       .then(responseJson => {
         // Showing response message coming from server updating records.
-        Alert.alert(responseJson );
+        Alert.alert(
+          "Aviso!",
+          responseJson,
+          [
+            {
+              text: "Aceptar",
+              onPress: () =>
+                this.props.navigation.navigate("UsersList", {
+                  status: true
+                })
+            }
+          ],
+          { cancelable: false }
+        );
       })
       .catch(error => {
         console.error(error);
@@ -72,20 +90,31 @@ export default class EditStudentRecordActivity extends Component {
   };
 
   DeleteStudentRecord = () => {
-    fetch(`${ServerURL}/UpdateUsers.php`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          student_id: this.state.Id
-        })
-      }
-    )
+    fetch(`${ServerURL}/DeteleUsers.php`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Id: this.state.Id
+      })
+    })
       .then(response => response.json())
       .then(responseJson => {
         // Showing response message coming from server after inserting records.
+        Alert.alert(
+          "Aviso!",
+          responseJson,
+          [
+            {
+              text: "Aceptar",
+              //onPress: () => this.props.navigation.navigate("UsersList")
+              onPress: () => this.props.navigation.navigate("UsersList")
+            }
+          ],
+          { cancelable: false }
+        );
       })
       .catch(error => {
         console.error(error);
@@ -97,8 +126,6 @@ export default class EditStudentRecordActivity extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        
-
         <TextInput
           placeholder="Nombre"
           value={this.state.Nombre}
@@ -108,7 +135,7 @@ export default class EditStudentRecordActivity extends Component {
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
-         <TextInput
+        <TextInput
           placeholder="Correo"
           value={this.state.Correo}
           onChangeText={TextInputValue =>
@@ -138,10 +165,10 @@ export default class EditStudentRecordActivity extends Component {
           style={styles.TextInputStyleClass}
         />
         <TextInput
-          placeholder="Estdo"
+          placeholder="Estado"
           value={this.state.Estado}
           onChangeText={TextInputValue =>
-            this.setState({ Estdo: TextInputValue })
+            this.setState({ Estado: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
@@ -155,8 +182,6 @@ export default class EditStudentRecordActivity extends Component {
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
-
-       
 
         <TouchableOpacity
           activeOpacity={0.4}

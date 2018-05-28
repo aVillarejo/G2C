@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
-
+import ServerURL from "../../Config/ServerURL";
 class FlatListDemo extends Component {
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ class FlatListDemo extends Component {
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
     //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=2`;
-    const url = `http://192.168.1.69/Serv_Web/ShowUsers.php`;
+    const url = `${ServerURL}/ShowUsers.php`;
     this.setState({ loading: true });
     fetch(url)
       .then(res => res.json())

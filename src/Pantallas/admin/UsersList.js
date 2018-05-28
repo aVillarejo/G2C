@@ -11,7 +11,6 @@ import ServerURL from "../../Config/ServerURL";
 class UsersList extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: false,
       data: [],
@@ -19,7 +18,8 @@ class UsersList extends Component {
       seed: 1,
       error: null,
       refreshing: false,
-      isLoading: true
+      isLoading: true,
+      isLoading2: false
     };
   }
 
@@ -42,7 +42,8 @@ class UsersList extends Component {
           data: res ? res : [...this.state.data, ...res],
           error: res.error || null,
           loading: false,
-          refreshing: false
+          refreshing: false,
+          isLoading2: false
         });
       })
       .catch(error => {
@@ -88,10 +89,15 @@ class UsersList extends Component {
   };
 
   renderHeader = () => {
-    return <SearchBar 
-    containerStyle={{ flexDirection: "row", flex: 1 }}
-              inputStyle={{ flex: 1 }}
-    placeholder="Buscar..." lightTheme round />;
+    return (
+      <SearchBar
+        containerStyle={{ flexDirection: "row", flex: 1 }}
+        inputStyle={{ flex: 1 }}
+        placeholder="Buscar..."
+        lightTheme
+        round
+      />
+    );
   };
 
   renderFooter = () => {
@@ -112,7 +118,8 @@ class UsersList extends Component {
 
   static navigationOptions = { header: null };
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading2) {
+      this.makeRemoteRequest();
       return (
         <View
           style={{
