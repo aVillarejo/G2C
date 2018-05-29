@@ -118,7 +118,8 @@ class UsersList extends Component {
 
   static navigationOptions = { header: null };
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading2) {
+      this.makeRemoteRequest();
       return (
         <View
           style={{

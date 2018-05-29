@@ -20,9 +20,13 @@ import DetallesPerfil from "../Pantallas/DetallesPerfil";
 //Admin Screen
 import AdminHomeScreen from "../Pantallas/admin/AdminHomeScreen";
 import AdminSettingsScreen from "../Pantallas/admin/AdminSettingsScreen";
+
 import UsersList from "../Pantallas/admin/UsersList";
 import UserDetails from "../Pantallas/admin/UserDetails";
+
 import ServiciosList from "../Pantallas/admin/ServiciosList";
+import CategoriasList from "../Pantallas/admin/CategoriasList";
+import CategoriasDetails from "../Pantallas/admin/CategoriasDetails";
 
 //Stack de Autenticacion de Usuario
 const AuthStack = createStackNavigator({
@@ -71,15 +75,22 @@ const adminUsersStack = createStackNavigator({
   UsersList: UsersList,
   UserDetails: UserDetails
 });
+const adminCategoriasStack = createStackNavigator({
+  CategoriasList: CategoriasList,
+  CategoriasDetails: CategoriasDetails
+});
+
 const AdminStack = createBottomTabNavigator(
   {
     Tab1: AdminHomeScreen,
     Usuarios: adminUsersStack,
     Servicios: ServiciosList,
-    Categorias: AdminSettingsScreen,
-    Contratos: AdminSettingsScreen
+    Categorias: adminCategoriasStack,
+    Contratos: AdminSettingsScreen,
+    Configutacion: AdminSettingsScreen
   },
   {
+    lazy: false,
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
@@ -93,7 +104,9 @@ const AdminStack = createBottomTabNavigator(
         } else if (routeName === "Categorias") {
           iconName = `ios-pricetags${focused ? "" : "-outline"}`;
         } else if (routeName === "Contratos") {
-          iconName = `ios-copy${focused ? "" : "-outline"}`;
+          iconName = `ios-book${focused ? "" : "-outline"}`;
+        } else if (routeName === "Configutacion") {
+          iconName = `ios-settings${focused ? "" : "-outline"}`;
         }
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons

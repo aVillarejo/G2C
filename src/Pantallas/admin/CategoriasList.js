@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import {
   View,
   Text,
+  Button,
   FlatList,
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
-class UsersList extends Component {
+export default class CategoriasList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +31,7 @@ class UsersList extends Component {
   makeRemoteRequest = () => {
     const { page, seed } = this.state;
     //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=2`;
-    const url = `${ServerURL}/ShowUsers.php`;
+    const url = `${ServerURL}/categorias/consultar.php`;
 
     this.setState({ loading: true });
     fetch(url)
@@ -116,7 +117,16 @@ class UsersList extends Component {
     );
   };
 
-  static navigationOptions = { header: null };
+  static navigationOptions = {
+    title: "Listado Categorias",
+    headerRight: (
+      <Button
+        onPress={() => alert("This is a button!")}
+        title="+"
+        color="black"
+      />
+    )
+  };
   render() {
     if (this.state.isLoading) {
       return (
@@ -152,7 +162,7 @@ class UsersList extends Component {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("UserDetails", {
+                this.props.navigation.navigate("CategoriasDetails", {
                   obj: item
                 })
               }
@@ -160,18 +170,18 @@ class UsersList extends Component {
               <ListItem
                 roundAvatar
                 title={`${item.Nombre}`}
-                subtitle={item.Correo}
-                avatar={{
-                  uri:
-                    item.Tipo != 0
-                      ? "https://cdn.icon-icons.com/icons2/157/PNG/256/admin_user_man_22187.png"
-                      : "https://cdn3.iconfinder.com/data/icons/users-6/100/654853-user-men-2-128.png"
-                }}
+                subtitle={item.Descripcion}
+                // avatar={{
+                //   uri:
+                //     item.Tipo != 0
+                //       ? "https://cdn.icon-icons.com/icons2/157/PNG/256/admin_user_man_22187.png"
+                //       : "https://cdn3.iconfinder.com/data/icons/users-6/100/654853-user-men-2-128.png"
+                // }}
                 containerStyle={{ borderBottomWidth: 0 }}
               />
             </TouchableOpacity>
           )}
-          keyExtractor={item => item.Correo}
+          keyExtractor={item => item.Nombre}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
           ListFooterComponent={this.renderFooter}
@@ -184,5 +194,3 @@ class UsersList extends Component {
     );
   }
 }
-
-export default UsersList;

@@ -15,19 +15,14 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
 import { NavigationActions } from "react-navigation";
 
-export default class UserDetails extends Component {
+export default class CategoriasDetails extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       Id: "",
       Nombre: "",
-      Tipo: "",
-      Telefono: "",
-      Correo: "",
-      Direccion: "",
-      Municipio: "",
-      Estado: ""
+      Descripcion: ""
     };
   }
 
@@ -36,21 +31,14 @@ export default class UserDetails extends Component {
     this.setState({
       Id: this.props.navigation.state.params.obj.Id,
       Nombre: this.props.navigation.state.params.obj.Nombre,
-      Direccion: this.props.navigation.state.params.obj.Direccion,
-      Municipio: this.props.navigation.state.params.obj.Municipio,
-      Estado: this.props.navigation.state.params.obj.Estado,
-      Tipo: this.props.navigation.state.params.obj.Tipo,
-      Telefono: this.props.navigation.state.params.obj.Telefono,
-      Correo: this.props.navigation.state.params.obj.Correo
+      Descripcion: this.props.navigation.state.params.obj.Descripcion
     });
   }
 
-  static navigationOptions = {
-    title: "Actualizar Usuario"
-  };
+  static navigationOptions = { title: "Detalles Categoria" };
 
   UpdateStudentRecord = () => {
-    fetch(`${ServerURL}/UpdateUsers.php`, {
+    fetch(`${ServerURL}/categorias/actualizar.php`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -59,12 +47,7 @@ export default class UserDetails extends Component {
       body: JSON.stringify({
         Id: this.state.Id,
         Nombre: this.state.Nombre,
-        Tipo: this.state.Tipo,
-        Telefono: this.state.Telefono,
-        Correo: this.state.Correo,
-        Municipio: this.state.Municipio,
-        Estado: this.state.Estado,
-        Direccion: this.state.Direccion
+        Descripcion: this.state.Descripcion
       })
     })
       .then(response => response.json())
@@ -76,7 +59,7 @@ export default class UserDetails extends Component {
           [
             {
               text: "Aceptar",
-              onPress: () => this.props.navigation.navigate("UsersList")
+              onPress: () => this.props.navigation.navigate("CategoriasList")
             }
           ],
           { cancelable: false }
@@ -108,7 +91,7 @@ export default class UserDetails extends Component {
             {
               text: "Aceptar",
               //onPress: () => this.props.navigation.navigate("UsersList")
-              onPress: () => this.props.navigation.navigate("UsersList")
+              onPress: () => this.props.navigation.navigate("CategoriasList")
             }
           ],
           { cancelable: false }
@@ -134,48 +117,10 @@ export default class UserDetails extends Component {
           style={styles.TextInputStyleClass}
         />
         <TextInput
-          placeholder="Correo"
-          value={this.state.Correo}
+          placeholder="Descripcion"
+          value={this.state.Descripcion}
           onChangeText={TextInputValue =>
-            this.setState({ Correo: TextInputValue })
-          }
-          underlineColorAndroid="transparent"
-          style={styles.TextInputStyleClass}
-        />
-
-        <TextInput
-          placeholder="Telefono"
-          value={this.state.Telefono}
-          onChangeText={TextInputValue =>
-            this.setState({ Telefono: TextInputValue })
-          }
-          underlineColorAndroid="transparent"
-          style={styles.TextInputStyleClass}
-        />
-
-        <TextInput
-          placeholder="Direccion"
-          value={this.state.Direccion}
-          onChangeText={TextInputValue =>
-            this.setState({ Direccion: TextInputValue })
-          }
-          underlineColorAndroid="transparent"
-          style={styles.TextInputStyleClass}
-        />
-        <TextInput
-          placeholder="Estado"
-          value={this.state.Estado}
-          onChangeText={TextInputValue =>
-            this.setState({ Estado: TextInputValue })
-          }
-          underlineColorAndroid="transparent"
-          style={styles.TextInputStyleClass}
-        />
-        <TextInput
-          placeholder="Municipio"
-          value={this.state.Municipio}
-          onChangeText={TextInputValue =>
-            this.setState({ Municipio: TextInputValue })
+            this.setState({ Descripcion: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
@@ -194,7 +139,7 @@ export default class UserDetails extends Component {
           style={styles.TouchableOpacityStyle}
           onPress={this.DeleteStudentRecord}
         >
-          <Text style={styles.TextStyle}>Eliminar Usuario</Text>
+          <Text style={styles.TextStyle}>Eliminar Categoria</Text>
         </TouchableOpacity>
       </View>
     );
