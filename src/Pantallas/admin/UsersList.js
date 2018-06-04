@@ -23,7 +23,17 @@ class UsersList extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
+    this.setState(
+      {
+        //page: this.state.page + 1
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  }
+  componentWillMount() {
     this.makeRemoteRequest();
   }
 
@@ -39,6 +49,7 @@ class UsersList extends Component {
         this.setState({
           //data: page === 1 ? res.results : [...this.state.data, ...res.results],
           isLoading: false,
+          //data: res ? res : [...this.state.data, ...res],
           data: res ? res : [...this.state.data, ...res],
           error: res.error || null,
           loading: false,
@@ -67,7 +78,7 @@ class UsersList extends Component {
   handleLoadMore = () => {
     this.setState(
       {
-        page: this.state.page + 1
+        //page: this.state.page + 1
       },
       () => {
         this.makeRemoteRequest();
@@ -117,6 +128,7 @@ class UsersList extends Component {
   };
 
   static navigationOptions = { header: null };
+
   render() {
     if (this.state.isLoading) {
       return (

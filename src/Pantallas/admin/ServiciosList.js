@@ -1,71 +1,190 @@
 import React, { Component } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
-  Button,
-  TouchableOpacity,
-  AsyncStorage,
-  StatusBar
+  Text,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
-export default class UsersList extends Component {
+import { List, ListItem, SearchBar } from "react-native-elements";
+import ServerURL from "../../Config/ServerURL";
+class ServiciosList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
-      nombre: "",
-      telefono: "",
-      correo: "",
-      pass: "",
-      tipo: ""
+      loading: false,
+      data: [],
+      page: 1,
+      seed: 1,
+      error: null,
+      refreshing: false,
+      isLoading: true,
+      isLoading2: false
     };
-    try {
-      AsyncStorage.getItem("id").then(value => {
-        this.setState({ id: value });
-      });
-      AsyncStorage.getItem("nombre").then(value => {
-        this.setState({ nombre: value });
-      });
-      AsyncStorage.getItem("correo").then(value => {
-        this.setState({ correo: value });
-      });
-      AsyncStorage.getItem("pass").then(value => {
-        this.setState({ pass: value });
-      });
-      AsyncStorage.getItem("tipo").then(value => {
-        this.setState({ tipo: value });
-      });
-      AsyncStorage.getItem("telefono").then(value => {
-        this.setState({ telefono: value });
-      });
-    } catch (err) {
-      console.warn(err);
-    }
+  }
+  static mavigationOptions = {
+    header: null
+  };
+  componentDidMount() {
+    this.makeRemoteRequest();
   }
 
-  static navigationOptions = {
-    headerTitle: "Mis Datos"
+  makeRemoteRequest = () => {
+    const { page, seed } = this.state;
+    //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=2`;
+    const url = `${ServerURL}/ShowUsers.php`;
+
+    this.setState({ loading: true });
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          //data: page === 1 ? res.results : [...this.state.data, ...res.results],
+          isLoading: false,
+          data: res ? res : [...this.state.data, ...res],
+          error: res.error || null,
+          loading: false,
+          refreshing: false,
+          isLoading2: false
+        });
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
   };
 
-  render() {
+  handleRefresh = () => {
+    this.setState(
+      {
+        page: 1,
+        seed: this.state.seed + 1,
+        refreshing: true
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  };
+
+  handleLoadMore = () => {
+    this.setState(
+      {
+        page: this.state.page + 1
+      },
+      () => {
+        this.makeRemoteRequest();
+      }
+    );
+  };
+
+  renderSeparator = () => {
     return (
-      <View style={styles.Container}>
-        <Text>Datos</Text>
-        <Text>id: {this.state.id}</Text>
-        <Text>nombre: {this.state.nombre}</Text>
-        <Text>correo: {this.state.correo}</Text>
-        <Text>telefono: {this.state.telefono}</Text>
-        <Text>pass: {this.state.pass}</Text>
-        <Text>tipo: {this.state.tipo}</Text>
+      <View
+        style={{
+          height: 1,
+          width: "86%",
+          backgroundColor: "#CED0CE",
+          marginLeft: "14%"
+        }}
+      />
+    );
+  };
+
+  renderHeader = () => {
+    return (
+      <SearchBar
+        containerStyle={{ flexDirection: "row", flex: 1 }}
+        inputStyle={{ flex: 1 }}
+        placeholder="Buscar..."
+        lightTheme
+        round
+      />
+    );
+  };
+
+  renderFooter = () => {
+    if (!this.state.loading) return null;
+
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <ActivityIndicator animating size="large" />
       </View>
+    );
+  };
+
+  static navigationOptions = { header: null };
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            paddingTop: 20,
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <SearchBar
+              placeholder="Buscar..."
+              lightTheme
+              round
+              containerStyle={{ flexDirection: "row", flex: 1 }}
+              inputStyle={{ flex: 1 }}
+            />
+          </View>
+
+          <View style={{ flex: 1, paddingTop: 20, alignItems: "center" }}>
+            <Text>Cargando Usuarios</Text>
+            <ActivityIndicator />
+          </View>
+        </View>
+      );
+    }
+    return (
+      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("UserDetails", {
+                  obj: item
+                })
+              }
+            >
+              <ListItem
+                roundAvatar
+                title={`${item.Nombre}`}
+                subtitle={item.Correo}
+                avatar={{
+                  uri:
+                    item.Tipo != 0
+                      ? "https://cdn.icon-icons.com/icons2/157/PNG/256/admin_user_man_22187.png"
+                      : "https://cdn3.iconfinder.com/data/icons/users-6/100/654853-user-men-2-128.png"
+                }}
+                containerStyle={{ borderBottomWidth: 0 }}
+              />
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.Correo}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this.renderFooter}
+          onRefresh={this.handleRefresh}
+          refreshing={this.state.refreshing}
+          onEndReached={this.handleLoadMore}
+          onEndReachedThreshold={50}
+        />
+      </List>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+export default ServiciosList;

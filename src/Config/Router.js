@@ -25,6 +25,8 @@ import UsersList from "../Pantallas/admin/UsersList";
 import UserDetails from "../Pantallas/admin/UserDetails";
 
 import ServiciosList from "../Pantallas/admin/ServiciosList";
+import ServiciosDetails from "../Pantallas/admin/ServiciosDetails";
+
 import CategoriasList from "../Pantallas/admin/CategoriasList";
 import CategoriasDetails from "../Pantallas/admin/CategoriasDetails";
 
@@ -79,10 +81,14 @@ const adminCategoriasStack = createStackNavigator({
   CategoriasList: CategoriasList,
   CategoriasDetails: CategoriasDetails
 });
+const adminServicosStack = createStackNavigator({
+  ServiciosList: ServiciosList,
+  ServiciosDetails: ServiciosDetails
+});
 
 const AdminStack = createBottomTabNavigator(
   {
-    Tab1: AdminHomeScreen,
+    Inicio: AdminHomeScreen,
     Usuarios: adminUsersStack,
     Servicios: ServiciosList,
     Categorias: adminCategoriasStack,
@@ -97,7 +103,7 @@ const AdminStack = createBottomTabNavigator(
         let iconName;
         if (routeName === "Usuarios") {
           iconName = `ios-contacts${focused ? "" : "-outline"}`;
-        } else if (routeName === "Tab1") {
+        } else if (routeName === "Inicio") {
           iconName = `ios-home${focused ? "" : "-outline"}`;
         } else if (routeName === "Servicios") {
           iconName = `ios-list-box${focused ? "" : "-outline"}`;
