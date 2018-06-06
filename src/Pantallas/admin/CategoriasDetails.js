@@ -71,7 +71,7 @@ export default class CategoriasDetails extends Component {
   };
 
   DeleteStudentRecord = () => {
-    fetch(`${ServerURL}/DeteleUsers.php`, {
+    fetch(`${ServerURL}/categorias/eliminar.php`, {
       method: "POST",
       headers: {
         Accept: "application/json",
