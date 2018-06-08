@@ -38,7 +38,7 @@ class UsersList extends Component {
   }
 
   makeRemoteRequest = () => {
-    const { page, seed } = this.state;
+    //const { page, seed } = this.state;
     //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=2`;
     const url = `${ServerURL}/ShowUsers.php`;
 

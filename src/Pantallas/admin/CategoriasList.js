@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
+
 export default class CategoriasList extends Component {
   constructor(props) {
     super(props);

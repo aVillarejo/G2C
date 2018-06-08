@@ -37,7 +37,7 @@ const AuthStack = createStackNavigator({
 });
 
 //Stack para Servicios del Usuario
-const ServiciosStack = createStackNavigator({
+const HomeStack = createStackNavigator({
   Home: HomeScreen,
   DetallesServicio: DetallesServicio
 });
@@ -48,7 +48,7 @@ const UserProfikeStack = createStackNavigator({
 
 //TabBar de Usuario
 const UserStack = createBottomTabNavigator(
-  { Servicios: ServiciosStack, "Mi Perfil": UserProfikeStack },
+  { Servicios: HomeStack, "Mi Perfil": UserProfikeStack },
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
@@ -81,7 +81,7 @@ const adminCategoriasStack = createStackNavigator({
   CategoriasList: CategoriasList,
   CategoriasDetails: CategoriasDetails
 });
-const adminServicosStack = createStackNavigator({
+const adminServiciosStack = createStackNavigator({
   ServiciosList: ServiciosList,
   ServiciosDetails: ServiciosDetails
 });
@@ -90,13 +90,13 @@ const AdminStack = createBottomTabNavigator(
   {
     Inicio: AdminHomeScreen,
     Usuarios: adminUsersStack,
-    Servicios: ServiciosList,
+    Servicios: adminServiciosStack,
     Categorias: adminCategoriasStack,
     Contratos: AdminSettingsScreen,
     Configutacion: AdminSettingsScreen
   },
   {
-    lazy: false,
+    lazy: true,
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
