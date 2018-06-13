@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { List, ListItem, SearchBar, Badge } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
 
 export default class CategoriasList extends Component {
@@ -169,9 +169,27 @@ export default class CategoriasList extends Component {
               }
             >
               <ListItem
+                hideChevron
                 roundAvatar
                 title={`${item.Nombre}`}
-                subtitle={`${item.Descripcion}`} // avatar={{
+                subtitle={`${item.Categoria}`}
+                // rightTitle={
+                //   <View>
+                //     <Text>{`$${item.Costo} MXN`}</Text>
+                //   </View>
+                // }
+                rightTitle={`$${item.Costo} MXN`}
+                rightTitleStyle={{
+                  flex: 1,
+                  flexDirection: "row",
+                  marginRight: 0,
+                  color: "black"
+                }}
+                // badge={{
+                //   value: `$${item.Costo} MXN`,
+                //   textStyle: { color: "white" },
+                //   containerStyle: { marginTop: -20 }
+                // }} // avatar={{
                 //   uri:
                 //     item.Tipo != 0
                 //       ? "https://cdn.icon-icons.com/icons2/157/PNG/256/admin_user_man_22187.png"

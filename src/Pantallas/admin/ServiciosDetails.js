@@ -22,7 +22,8 @@ export default class ServiciosDetails extends Component {
     this.state = {
       Id: "",
       Nombre: "",
-      Descripcion: ""
+      Descripcion: "",
+      Costo: ""
     };
   }
 
@@ -31,7 +32,8 @@ export default class ServiciosDetails extends Component {
     this.setState({
       Id: this.props.navigation.state.params.obj.Id,
       Nombre: this.props.navigation.state.params.obj.Nombre,
-      Descripcion: this.props.navigation.state.params.obj.Descripcion
+      Descripcion: this.props.navigation.state.params.obj.Descripcion,
+      Costo: this.props.navigation.state.params.obj.Costo
     });
   }
 
@@ -47,7 +49,8 @@ export default class ServiciosDetails extends Component {
       body: JSON.stringify({
         Id: this.state.Id,
         Nombre: this.state.Nombre,
-        Descripcion: this.state.Descripcion
+        Descripcion: this.state.Descripcion,
+        Costo: this.state.Costo
       })
     })
       .then(response => response.json())
@@ -116,11 +119,28 @@ export default class ServiciosDetails extends Component {
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}
         />
+        <View style={{ flexDirection: "row", flex: 0 }}>
+          <View style={{ flexDirection: "row", flex: 0 }}>
+            <Text>Descripcion</Text>
+          </View>
+          <View style={{ flexDirection: "row", flex: 0 }}>
+            <TextInput
+              placeholder="Descripcion"
+              value={this.state.Descripcion}
+              onChangeText={TextInputValue =>
+                this.setState({ Descripcion: TextInputValue })
+              }
+              underlineColorAndroid="transparent"
+              style={styles.TextInputStyleClass}
+            />
+          </View>
+        </View>
+
         <TextInput
-          placeholder="Descripcion"
-          value={this.state.Descripcion}
+          placeholder="Costo"
+          value={this.state.Costo}
           onChangeText={TextInputValue =>
-            this.setState({ Descripcion: TextInputValue })
+            this.setState({ Costo: TextInputValue })
           }
           underlineColorAndroid="transparent"
           style={styles.TextInputStyleClass}

@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
@@ -127,8 +128,16 @@ class UsersList extends Component {
     );
   };
 
-  static navigationOptions = { header: null };
-
+  static navigationOptions = {
+    title: "Listado Usuarios",
+    headerRight: (
+      <Button
+        onPress={() => alert("This is a button!")}
+        title="+"
+        color="black"
+      />
+    )
+  };
   render() {
     if (this.state.isLoading) {
       return (
