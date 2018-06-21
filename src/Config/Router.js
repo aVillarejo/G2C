@@ -26,6 +26,7 @@ import UserDetails from "../Pantallas/admin/UserDetails";
 
 import ServiciosList from "../Pantallas/admin/ServiciosList";
 import ServiciosDetails from "../Pantallas/admin/ServiciosDetails";
+import ServicioRegistrar from "../Pantallas/admin/ServicioRegistrar";
 
 import CategoriasList from "../Pantallas/admin/CategoriasList";
 import CategoriasDetails from "../Pantallas/admin/CategoriasDetails";
@@ -83,7 +84,8 @@ const adminCategoriasStack = createStackNavigator({
 });
 const adminServiciosStack = createStackNavigator({
   ServiciosList: ServiciosList,
-  ServiciosDetails: ServiciosDetails
+  ServiciosDetails: ServiciosDetails,
+  ServicioRegistrar: ServicioRegistrar
 });
 
 const AdminStack = createBottomTabNavigator(

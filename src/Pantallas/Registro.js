@@ -104,21 +104,42 @@ export default class Register extends Component {
     });
   };
 
+  validar_email(email) {
+    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email) ? true : false;
+  }
+
   Procesar_Registro = () => {
-    if (this.state.pass != this.state.pass2) {
-      Alert.alert(
-        "Lo sentimos!",
-        "Las contraseñas no coinciden",
-        [
-          {
-            text: "Aceptar",
-            onPress: () => console.log("OK Pressed")
-          }
-        ],
-        { cancelable: false }
-      );
+    if (
+      this.state.correo &&
+      this.state.nombre &&
+      this.state.telefono &&
+      this.state.pass &&
+      this.state.pass2
+    ) {
+      let email_prueba = this.state.correo;
+      if (this.validar_email(email_prueba)) {
+        //alert("El email es correcto");
+        if (this.state.pass != this.state.pass2) {
+          Alert.alert(
+            "Lo sentimos!",
+            "Las contraseñas no coinciden",
+            [
+              {
+                text: "Aceptar",
+                onPress: () => console.log("OK Pressed")
+              }
+            ],
+            { cancelable: false }
+          );
+        } else {
+          this.Insert_Data_Into_MySQL();
+        }
+      } else {
+        alert("El email no es valido");
+      }
     } else {
-      this.Insert_Data_Into_MySQL();
+      alert("Todos los campos son obligatorios");
     }
   };
 

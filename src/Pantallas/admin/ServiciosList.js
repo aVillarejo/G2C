@@ -4,6 +4,7 @@ import {
   Text,
   Button,
   FlatList,
+  Platform,
   ActivityIndicator,
   TouchableOpacity
 } from "react-native";
@@ -118,16 +119,27 @@ export default class CategoriasList extends Component {
     );
   };
 
-  static navigationOptions = {
-    title: "Listado Servicios",
-    headerRight: (
-      <Button
-        onPress={() => alert("This is a button!")}
-        title="+"
-        color="black"
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Listado Servicios",
+      headerRight: (
+        <Button
+          onPress={navigation.getParam("NuevoServicio")}
+          title="+"
+          color={Platform.OS === "ios" ? "black" : null}
+        />
+      )
+    };
   };
+
+  componentWillMount() {
+    this.props.navigation.setParams({ NuevoServicio: this._NuevoServicio });
+  }
+
+  _NuevoServicio = () => {
+    this.props.navigation.navigate("ServicioRegistrar");
+  };
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -172,9 +184,7 @@ export default class CategoriasList extends Component {
                 hideChevron
                 roundAvatar
                 title={`${item.Nombre}`}
-                subtitle={`${item.Categoria}`}
-                // rightTitle={
-                //   <View>
+                subtitle={`${item.Categoria}`} //   <View> // rightTitle={
                 //     <Text>{`$${item.Costo} MXN`}</Text>
                 //   </View>
                 // }
@@ -184,9 +194,7 @@ export default class CategoriasList extends Component {
                   flexDirection: "row",
                   marginRight: 0,
                   color: "black"
-                }}
-                // badge={{
-                //   value: `$${item.Costo} MXN`,
+                }} //   value: `$${item.Costo} MXN`, // badge={{
                 //   textStyle: { color: "white" },
                 //   containerStyle: { marginTop: -20 }
                 // }} // avatar={{
