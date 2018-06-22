@@ -30,6 +30,7 @@ import ServicioRegistrar from "../Pantallas/admin/ServicioRegistrar";
 
 import CategoriasList from "../Pantallas/admin/CategoriasList";
 import CategoriasDetails from "../Pantallas/admin/CategoriasDetails";
+import CategoriaRegistrar from "../Pantallas/admin/CategoriaRegistrar";
 
 //Stack de Autenticacion de Usuario
 const AuthStack = createStackNavigator({
@@ -78,9 +79,14 @@ const adminUsersStack = createStackNavigator({
   UsersList: UsersList,
   UserDetails: UserDetails
 });
+
+const AdminHomeStack = createStackNavigator({
+  AdminHomeScreen: AdminHomeScreen
+});
 const adminCategoriasStack = createStackNavigator({
   CategoriasList: CategoriasList,
-  CategoriasDetails: CategoriasDetails
+  CategoriasDetails: CategoriasDetails,
+  CategoriaRegistrar: CategoriaRegistrar
 });
 const adminServiciosStack = createStackNavigator({
   ServiciosList: ServiciosList,
@@ -90,12 +96,12 @@ const adminServiciosStack = createStackNavigator({
 
 const AdminStack = createBottomTabNavigator(
   {
-    Inicio: AdminHomeScreen,
+    Inicio: AdminHomeStack,
     Usuarios: adminUsersStack,
     Servicios: adminServiciosStack,
     Categorias: adminCategoriasStack,
-    Contratos: AdminSettingsScreen,
-    Configutacion: AdminSettingsScreen
+    //Contratos: AdminSettingsScreen,
+    //Configutacion: AdminSettingsScreen
   },
   {
     lazy: true,
@@ -111,11 +117,13 @@ const AdminStack = createBottomTabNavigator(
           iconName = `ios-list-box${focused ? "" : "-outline"}`;
         } else if (routeName === "Categorias") {
           iconName = `ios-pricetags${focused ? "" : "-outline"}`;
-        } else if (routeName === "Contratos") {
-          iconName = `ios-book${focused ? "" : "-outline"}`;
-        } else if (routeName === "Configutacion") {
-          iconName = `ios-settings${focused ? "" : "-outline"}`;
-        }
+        } 
+        // else if (routeName === "Contratos") {
+        //   iconName = `ios-book${focused ? "" : "-outline"}`;
+        // }
+        // else if (routeName === "Configutacion") {
+        //   iconName = `ios-settings${focused ? "" : "-outline"}`;
+        // }
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={25} color={tintColor} />;

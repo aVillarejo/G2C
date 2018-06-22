@@ -3,11 +3,25 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
+  StatusBar,
   TouchableOpacity,
   AsyncStorage,
-  StatusBar
 } from "react-native";
+import {
+  Container,
+  Item,
+  Input,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Button,
+  Icon,
+  Left,
+  Right,
+  Body
+} from "native-base";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
@@ -39,13 +53,40 @@ export default class PerfilUsuario extends Component {
     }
   }
 
-  static navigationOptions = {
-    headerTitle: "Mis Datos"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: " Mis Datos",
+      headerStyle: { backgroundColor: "rgba(92, 61,123, 0.9)" },
+      headerTintColor: "#fff",
+      headerRight: (
+        <Button
+          transparent
+          light
+          iconLeft
+          style={styles.btn}
+          onPress={navigation.getParam("NuevoServicio")}
+        >
+          <Icon name="ios-log-out-outline" />
+        </Button>
+      )
+    };
+  };
+
+  componentWillMount() {
+    this.props.navigation.setParams({ NuevoServicio: this._signOutAsync });
+  }
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate("Auth");
   };
 
   render() {
     return (
       <View style={styles.Container}>
+      <StatusBar
+          barStyle="light-content"
+          backgroundColor="#rgba(92, 61,123, 0.9)"
+        />
         <Text>Datos</Text>
         <Text>id: {this.state.id}</Text>
         <Text>nombre: {this.state.nombre}</Text>
@@ -61,5 +102,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  bold: {
+    textAlign: "left",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "rgb(90,61,123)",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  btn: {
+    //backgroundColor: "rgba(92, 61,123, 0.9)",
+
+    //justifyContent: "center"
+    // width: 300,
+    // height: 40,
+    // borderColor: "transparent",
+    // borderWidth: 0,
+    // borderRadius: 5
+    flex: 1,
+    paddingRight: 12
   }
 });

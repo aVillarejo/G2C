@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  Button,
+  StatusBar,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
+import { Icon, Button } from "native-base";
 
 export default class CategoriasList extends Component {
   constructor(props) {
@@ -90,17 +92,17 @@ export default class CategoriasList extends Component {
     );
   };
 
-  renderHeader = () => {
-    return (
-      <SearchBar
-        containerStyle={{ flexDirection: "row", flex: 1 }}
-        inputStyle={{ flex: 1 }}
-        placeholder="Buscar..."
-        lightTheme
-        round
-      />
-    );
-  };
+  // renderHeader = () => {
+  //   return (
+  //     <SearchBar
+  //       containerStyle={{ flexDirection: "row", flex: 1 }}
+  //       inputStyle={{ flex: 1 }}
+  //       placeholder="Buscar..."
+  //       lightTheme
+  //       round
+  //     />
+  //   );
+  // };
 
   renderFooter = () => {
     if (!this.state.loading) return null;
@@ -118,16 +120,33 @@ export default class CategoriasList extends Component {
     );
   };
 
-  static navigationOptions = {
-    title: "Listado Categorias",
-    headerRight: (
-      <Button
-        onPress={() => alert("This is a button!")}
-        title="+"
-        color="black"
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Listado Categorias",
+      headerStyle: { backgroundColor: "rgba(92, 61,123, 0.9)" },
+      headerTintColor: "#fff",
+      headerRight: (
+        <Button
+          transparent
+          light
+          iconLeft
+          style={styles.btn}
+          onPress={navigation.getParam("NuevoCategoria")}
+        >
+          <Icon name="ios-add-circle-outline" />
+        </Button>
+      )
+    };
   };
+
+  componentWillMount() {
+    this.props.navigation.setParams({ NuevoCategoria: this._NuevoCategoria });
+  }
+
+  _NuevoCategoria = () => {
+    this.props.navigation.navigate("CategoriaRegistrar");
+  };
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -158,6 +177,10 @@ export default class CategoriasList extends Component {
     }
     return (
       <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="#rgba(92, 61,123, 0.9)"
+        />
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
@@ -195,3 +218,104 @@ export default class CategoriasList extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  footer2: {
+    //backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: 20,
+    flexGrow: 0
+  },
+  mainContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    //justifyContent: "center",
+    //alignItems: "center",
+    //paddingBottom: 10,
+    backgroundColor: "white"
+  },
+  FormContainer: {
+    flexGrow: 1,
+    justifyContent: "space-between"
+    //alignItems: "center"
+  },
+  titleApp: {
+    // backgroundColor:'rgb(90,61,123)',
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "rgb(90,61,123)",
+    width: 200,
+    margin: 10,
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  logo: {
+    marginTop: 10,
+    width: 350,
+    height: 200
+  },
+  register: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
+  },
+  registertext: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "rgb(90,61,123)",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  bold: {
+    textAlign: "center",
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "white",
+    alignSelf: "center",
+    justifyContent: "center"
+  },
+  // btn: {
+  //   backgroundColor: "rgba(92, 61,123, 0.9)",
+  //   width: 300,
+  //   height: 40,
+  //   //justifyContent: "center",
+  //   //alignItems: "center",
+  //   borderColor: "transparent",
+  //   borderWidth: 0,
+  //   borderRadius: 5
+  // },
+  input: {
+    minWidth: 300,
+    flexWrap: "wrap",
+    height: 50,
+    backgroundColor: "rgba(148,114,146,0.8)",
+    paddingHorizontal: 10,
+    color: "#fff",
+    marginBottom: 10
+  },
+  buttonContainer: {
+    flexGrow: 1,
+    marginTop: 0,
+    justifyContent: "center",
+    paddingTop: 10
+  },
+  loginbutton: {
+    color: "#ffffff",
+    textAlign: "center",
+    fontWeight: "700"
+  },
+  btn: {
+    //backgroundColor: "rgba(92, 61,123, 0.9)",
+
+    //justifyContent: "center"
+    // width: 300,
+    // height: 40,
+    // borderColor: "transparent",
+    // borderWidth: 0,
+    // borderRadius: 5
+    flex: 1,
+    paddingRight: 12
+  }
+});

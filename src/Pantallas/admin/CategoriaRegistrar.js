@@ -33,18 +33,21 @@ import {
 
 import ServerURL from "../../Config/ServerURL";
 
-export default class ServicioRegistrar extends Component {
+export default class CategoriaRegistrar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Nombre: null,
       Descripcion: null,
-      Costo: null,
-      Categoria: null,
       data: [
         {
           Id: "1",
           Nombre: "Educacion",
+          Descripcion: "Descripcion"
+        },
+        {
+          Id: "2",
+          Nombre: "Ventas",
           Descripcion: "Descripcion"
         }
       ],
@@ -54,33 +57,6 @@ export default class ServicioRegistrar extends Component {
     this.focusNextField = this.focusNextField.bind(this);
     this.inputs = {};
   }
-  componentDidMount() {
-    this.makeRemoteRequest();
-  }
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    //const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=2`;
-    const url = `${ServerURL}/categorias/consultar.php`;
-
-    this.setState({ loading: true });
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          //data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          isLoading: false,
-          data: res ? res : [...this.state.data, ...res],
-          error: res.error || null,
-          loading: false,
-          refreshing: false,
-          isLoading2: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
 
   onValueChange(value) {
     this.setState({ Categoria: value });
@@ -92,7 +68,7 @@ export default class ServicioRegistrar extends Component {
 
   Insert_Data_Into_MySQL = () => {
     this.setState({ ActivityIndicator_Loading: true }, () => {
-      fetch(`${ServerURL}/servicios/registrar.php`, {
+      fetch(`${ServerURL}/categorias/registrar.php`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -100,9 +76,7 @@ export default class ServicioRegistrar extends Component {
         },
         body: JSON.stringify({
           Nombre: this.state.Nombre,
-          Descripcion: this.state.Descripcion,
-          Costo: this.state.Costo,
-          Categoria: this.state.Categoria
+          Descripcion: this.state.Descripcion
         })
       })
         .then(response => response.json())
@@ -127,13 +101,8 @@ export default class ServicioRegistrar extends Component {
                 {
                   text: "OK",
                   onPress: () => {
-                    this.props.navigation.navigate("ServiciosList");
+                    this.props.navigation.navigate("CategoriasList");
                   }
-                  // onPress: () => {
-                  //   this.props.navigation.navigate("DrawerNavigator", {
-                  //     id: responseJsonFromServer.id
-                  //   });
-                  // }
                 }
               ],
               { cancelable: false }
@@ -149,12 +118,7 @@ export default class ServicioRegistrar extends Component {
   };
   Procesar_Registro = () => {
     console.warn(this.state);
-    if (
-      this.state.Nombre == null ||
-      this.state.Descripcion == null ||
-      this.state.Costo == null ||
-      this.state.Categoria == null
-    ) {
+    if (this.state.Nombre == null || this.state.Descripcion == null) {
       Alert.alert(
         "Lo sentimos!",
         "Todos los campos son obligatorios",
@@ -172,7 +136,7 @@ export default class ServicioRegistrar extends Component {
   };
 
   static navigationOptions = {
-    title: "Agregar Servicio",
+    title: "Agregar Categoria",
     headerStyle: { backgroundColor: "rgba(92, 61,123, 0.9)" },
     headerTintColor: "#fff"
   };
@@ -225,54 +189,6 @@ export default class ServicioRegistrar extends Component {
                   }
                   value={this.state.Descripcion}
                 />
-              </Item>
-
-              <Item floatingLabel>
-                <Icon active name="logo-usd" />
-
-                <Label>Costo</Label>
-                <Input
-                  keyboardType="numeric"
-                  returnKeyType={"done"}
-                  getRef={c => (this._inputCosto = c)}
-                  value={this.state.Costo}
-                  onChangeText={text =>
-                    this.setState({
-                      Costo: text
-                    })
-                  }
-                  value={this.state.Costo}
-                />
-              </Item>
-              <Item>
-                <Container style={{ flexDirection: "row" }}>
-                  <Container style={{ flex: 1, paddingTop: 15 }}>
-                    <Item disabled>
-                      <Input disabled placeholder=" Categoria:" />
-                    </Item>
-                  </Container>
-                  <Container style={{ flex: 1 }}>
-                    <Picker
-                      mode="dropdown"
-                      placeholder="Sin Categoria"
-                      iosHeader="Categorias"
-                      iosIcon={<Icon name="ios-arrow-down-outline" />}
-                      style={{ width: undefined, marginTop: 20 }}
-                      selectedValue={this.state.Categoria}
-                      onValueChange={this.onValueChange.bind(this)}
-                    >
-                      {this.state.data.map((item, index) => {
-                        return (
-                          <Item
-                            label={item.Nombre}
-                            value={item.Id}
-                            key={index}
-                          />
-                        );
-                      })}
-                    </Picker>
-                  </Container>
-                </Container>
               </Item>
             </Form>
           </Container>

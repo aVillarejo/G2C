@@ -144,7 +144,7 @@ export default class Register extends Component {
   };
 
   static navigationOptions = {
-    title: "Neva Cuenta",
+    title: "Nueva Cuenta",
     headerStyle: { backgroundColor: "rgba(92, 61,123, 0.9)" },
     headerTintColor: "#fff"
   };

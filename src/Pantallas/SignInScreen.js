@@ -28,6 +28,9 @@ export default class Login extends Component {
       correo: "",
       pass: "",
       tipo: "",
+      Municipio:"",
+      Estado:"",
+      Direccion:"",
       ActivityIndicator_Loading: false
     };
   }
@@ -119,7 +122,9 @@ export default class Login extends Component {
     await AsyncStorage.setItem("correo", this.state.correo);
     await AsyncStorage.setItem("pass", this.state.pass);
     await AsyncStorage.setItem("tipo", this.state.tipo);
-
+    await AsyncStorage.setItem("Municipio", this.state.Municipio);
+    await AsyncStorage.setItem("Direccion", this.state.Direccion);
+    await AsyncStorage.setItem("Estado", this.state.Estado);
     //this.props.navigation.navigate('App');
     //this.props.navigation.navigate(this.state.tipo>0 ?'Admin':'App');
     this.props.navigation.navigate(this.state.tipo > 0 ? "Admin" : "Home");
@@ -177,7 +182,9 @@ export default class Login extends Component {
             this.setState({ pass: responseJsonFromServer.Pass });
             this.setState({ telefono: responseJsonFromServer.Telefono });
             this.setState({ tipo: responseJsonFromServer.Tipo });
-
+            this.setState({ Municipio: responseJsonFromServer.Municipio });
+            this.setState({ Direccion: responseJsonFromServer.Direccion });
+            this.setState({ Estado: responseJsonFromServer.Estado });
             this._signInAsync();
           }
           this.setState({ ActivityIndicator_Loading: false });
