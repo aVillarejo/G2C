@@ -11,7 +11,7 @@ import {
   TextInput,
   Alert,
   TouchableWithoutFeedback,
-  StatusBar,
+  StatusBar
 } from "react-native";
 
 import {
@@ -47,7 +47,7 @@ export default class UserDetails extends Component {
       Direccion: "",
       Municipio: "",
       Estado: "",
-      Pass:""
+      Pass: ""
     };
   }
 
@@ -62,7 +62,7 @@ export default class UserDetails extends Component {
       Tipo: this.props.navigation.state.params.obj.Tipo,
       Telefono: this.props.navigation.state.params.obj.Telefono,
       Correo: this.props.navigation.state.params.obj.Correo,
-      Pass:this.props.navigation.state.params.obj.Pass,
+      Pass: this.props.navigation.state.params.obj.Pass
     });
   }
 
@@ -90,8 +90,7 @@ export default class UserDetails extends Component {
         Municipio: this.state.Municipio,
         Estado: this.state.Estado,
         Direccion: this.state.Direccion,
-        Pass:this.state.Pass
-
+        Pass: this.state.Pass
       })
     })
       .then(response => response.json())
@@ -115,146 +114,169 @@ export default class UserDetails extends Component {
   };
 
   DeleteRecord = () => {
-    fetch(`${ServerURL}/DeteleUsers.php`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Id: this.state.Id
-      })
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        // Showing response message coming from server after inserting records.
-        Alert.alert(
-          "Aviso!",
-          responseJson,
-          [
-            {
-              text: "Aceptar",
-              //onPress: () => this.props.navigation.navigate("UsersList")
-              onPress: () => this.props.navigation.navigate("UsersList")
-            }
-          ],
-          { cancelable: false }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    Alert.alert(
+      "Atencion",
+      "Realmente quiere eliminar el elemento",
+      [
+        {
+          text: "Si",
+          onPress: () => {
+            fetch(`${ServerURL}/DeteleUsers.php`, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                Id: this.state.Id
+              })
+            })
+              .then(response => response.json())
+              .then(responseJson => {
+                // Showing response message coming from server after inserting records.
+                Alert.alert(
+                  "Aviso!",
+                  responseJson,
+                  [
+                    {
+                      text: "Aceptar",
+                      //onPress: () => this.props.navigation.navigate("UsersList")
+                      onPress: () => this.props.navigation.navigate("UsersList")
+                    }
+                  ],
+                  { cancelable: false }
+                );
+              })
+              .catch(error => {
+                console.error(error);
+              });
 
-    this.props.navigation.navigate("First");
+            this.props.navigation.navigate("First");
+          }
+        },
+        {
+          text: "No",
+          onPress: () => console.log("ok")
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
   render() {
     return (
-      <TouchableWithoutFeedback 
-      onPress={Keyboard.dismiss}
-      style={styles.mainContainer}
-    >
-      <View style={styles.mainContainer}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="#rgba(92, 61,123, 0.9)"
-        />
-        <Container style={styles.frm}>
-          <Form>
-          
-          <Item floatingLabel>
-              <Icon active name="md-bookmarks" />
-              <Label>Nombre</Label>
-              <Input returnKeyType={"next"} autoFocus={true}
-                onSubmitEditing={event => {this._inputCorreo._root.focus();}}
-                onChangeText={txtNom => this.setState({Nombre: txtNom})}
-                value={this.state.Nombre}
-              />
-            </Item>
+      <TouchableWithoutFeedback
+        onPress={Keyboard.dismiss}
+        style={styles.mainContainer}
+      >
+        <View style={styles.mainContainer}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#rgba(92, 61,123, 0.9)"
+          />
+          <Container style={styles.frm}>
+            <Form>
+              <Item floatingLabel>
+                <Icon active name="md-bookmarks" />
+                <Label>Nombre</Label>
+                <Input
+                  returnKeyType={"next"}
+                  onSubmitEditing={event => {
+                    this._inputCorreo._root.focus();
+                  }}
+                  onChangeText={txtNom => this.setState({ Nombre: txtNom })}
+                  value={this.state.Nombre}
+                />
+              </Item>
 
-
-            <Item floatingLabel>
-              <Icon active name="mail" />
+              <Item floatingLabel>
+                <Icon active name="mail" />
                 <Label>Correo</Label>
-                <Input returnKeyType={"next"}
+                <Input
+                  returnKeyType={"next"}
                   getRef={c => (this._inputCorreo = c)}
-                  onSubmitEditing={event =>{this._inputTelefono._root.focus();}}
-                  onChangeText={txt =>this.setState({Descripcion: txt})}
+                  onSubmitEditing={event => {
+                    this._inputTelefono._root.focus();
+                  }}
+                  onChangeText={txt => this.setState({ Descripcion: txt })}
                   value={this.state.Correo}
                 />
               </Item>
 
-
-
               <Item floatingLabel>
                 <Icon active name="md-call" />
                 <Label>Telefono</Label>
-                <Input keyboardType="numeric" returnKeyType={"done"}
+                <Input
+                  keyboardType="numeric"
+                  returnKeyType={"done"}
                   getRef={c => (this._inputTelefono = c)}
-                 onSubmitEditing={event =>{this._inputDireccion._root.focus();}}
-                  onChangeText={text => this.setState({Telefono: text})}
+                  onSubmitEditing={event => {
+                    this._inputDireccion._root.focus();
+                  }}
+                  onChangeText={text => this.setState({ Telefono: text })}
                   value={this.state.Telefono}
                 />
               </Item>
 
               <Item floatingLabel>
-              <Icon active name="home" />
+                <Icon active name="home" />
                 <Label>Direccion</Label>
-                <Input returnKeyType={"next"}
+                <Input
+                  returnKeyType={"next"}
                   getRef={c => (this._inputDireccion = c)}
-                  onSubmitEditing={event =>{this._inputPass._root.focus();}}
-                  onChangeText={txt =>this.setState({Direccion: txt})}
+                  onSubmitEditing={event => {
+                    this._inputPass._root.focus();
+                  }}
+                  onChangeText={txt => this.setState({ Direccion: txt })}
                   value={this.state.Direccion}
                 />
               </Item>
 
               <Item floatingLabel>
-              <Icon active name="mail" />
+                <Icon active name="mail" />
                 <Label>Password</Label>
-                <Input returnKeyType={"next"}
+                <Input
+                  returnKeyType={"next"}
                   getRef={c => (this._inputPass = c)}
-                 // onSubmitEditing={event =>{this._inputTelefono._root.focus();}}
-                  onChangeText={txt =>this.setState({Pass: txt})}
+                  // onSubmitEditing={event =>{this._inputTelefono._root.focus();}}
+                  onChangeText={txt => this.setState({ Pass: txt })}
                   value={this.state.Pass}
                 />
               </Item>
+            </Form>
+          </Container>
 
-
-
-          </Form>
-        </Container>
-
-        <Container style={styles.footer2}>
-          <Item>
-            <Container style={{ flexDirection: "row" }}>
-              <Container style={{ flex: 1, paddingTop: 15, marginRight: 10 }}>
-                <Button
-                  block
-                  danger
-                  iconLeft
-                  style={styles.btn}
-                  onPress={this.DeleteRecord}
-                >
-                  <Icon name="ios-trash-outline" color="black" />
-                  <Text style={styles.bold}> Eliminar</Text>
-                </Button>
+          <Container style={styles.footer2}>
+            <Item>
+              <Container style={{ flexDirection: "row" }}>
+                <Container style={{ flex: 1, paddingTop: 15, marginRight: 10 }}>
+                  <Button
+                    block
+                    danger
+                    iconLeft
+                    style={styles.btn}
+                    onPress={this.DeleteRecord}
+                  >
+                    <Icon name="ios-trash-outline" color="black" />
+                    <Text style={styles.bold}> Eliminar</Text>
+                  </Button>
+                </Container>
+                <Container style={{ flex: 1, paddingTop: 15 }}>
+                  <Button
+                    block
+                    iconLeft
+                    style={styles.btn}
+                    onPress={this.UpdateRecord}
+                  >
+                    <Icon name="ios-sync-outline" color="black" />
+                    <Text style={styles.bold}> Actualizar</Text>
+                  </Button>
+                </Container>
               </Container>
-              <Container style={{ flex: 1, paddingTop: 15 }}>
-                <Button
-                  block
-                  iconLeft
-                  style={styles.btn}
-                  onPress={this.UpdateRecord}
-                >
-                  <Icon name="ios-sync-outline" color="black" />
-                  <Text style={styles.bold}> Actualizar</Text>
-                </Button>
-              </Container>
-            </Container>
-          </Item>
-        </Container>
-      </View>
-    </TouchableWithoutFeedback>
+            </Item>
+          </Container>
+        </View>
+      </TouchableWithoutFeedback>
       // <View style={styles.MainContainer}>
       //   <TextInput
       //     placeholder="Nombre"
@@ -381,8 +403,8 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     //alignItems: "center",
     //justifyContent: "flex-end",
-    marginTop:0,
-    marginBottom: 20,
+    marginTop: 0,
+    marginBottom: 20
   },
   mainContainer: {
     flexGrow: 1,

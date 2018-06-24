@@ -39,7 +39,7 @@ export default class ServiciosDetails extends Component {
       Nombre: null,
       Descripcion: null,
       Costo: null,
-      Categoria: null,
+      Categoria: "",
       data: [
         {
           Id: "1",
@@ -166,7 +166,6 @@ export default class ServiciosDetails extends Component {
 
   render() {
     return (
-      // <Container style={styles.mainContainer}>
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}
         style={styles.mainContainer}
@@ -176,7 +175,7 @@ export default class ServiciosDetails extends Component {
             barStyle="light-content"
             backgroundColor="#rgba(92, 61,123, 0.9)"
           />
-          <Container>
+          <Container style={styles.frm}>
             <Form>
               <Item floatingLabel>
                 <Icon active name="md-bookmarks" />
@@ -447,5 +446,10 @@ const styles = StyleSheet.create({
     // borderWidth: 0,
     // borderRadius: 5
     marginTop: 5
+  },
+  frm: {
+    flex: 0,
+    justifyContent: "space-between"
+    //alignItems: "center"
   }
 });

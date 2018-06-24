@@ -28,9 +28,9 @@ export default class Login extends Component {
       correo: "",
       pass: "",
       tipo: "",
-      Municipio:"",
-      Estado:"",
-      Direccion:"",
+      Municipio: "",
+      Estado: "",
+      Direccion: "",
       ActivityIndicator_Loading: false
     };
   }
@@ -71,18 +71,36 @@ export default class Login extends Component {
               returnKeyType="next"
               keyboardType="email-address"
               autoCorrect={false}
-              autoCapitalize="none"
-              onSubmitEditing={() => this.passwordInput.focus()}
+              autoCapitalize="none" // onSubmitEditing={() => this.passwordInput.focus()}
+              onSubmitEditing={() => {
+                if (this.validar_email(this.state.correo)) {
+                  this.passwordInput.focus();
+                } else {
+                  Alert.alert(
+                    "Lo sentimos!",
+                    "Proporcione un email valido",
+                    [
+                      {
+                        text: "OK",
+                        onPress: () => console.log("ok")
+                      }
+                    ],
+                    { cancelable: true }
+                  );
+                }
+              }}
               style={styles.input}
               onChangeText={TextInputText =>
                 this.setState({ correo: TextInputText })
               }
+              value={this.state.correo}
             />
 
             <TextInput
               placeholder="Password"
               placeholderTextColor="#FFF"
               secureTextEntry
+              clearTextOnFocus
               autoCorrect={false}
               returnKeyType="done"
               ref={input => (this.passwordInput = input)}
@@ -114,6 +132,12 @@ export default class Login extends Component {
       </TouchableWithoutFeedback>
     );
   }
+
+  validar_email(email) {
+    var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email) ? true : false;
+  }
+
   _signInAsync = async () => {
     await AsyncStorage.setItem("userToken", "abc");
     await AsyncStorage.setItem("id", this.state.id);
@@ -143,8 +167,20 @@ export default class Login extends Component {
         ],
         { cancelable: false }
       );
-    } else {
+    } else if (this.validar_email(this.state.correo)) {
       this._fetchLogin();
+    } else {
+      Alert.alert(
+        "Lo sentimos!",
+        "Proporcione un email valido",
+        [
+          {
+            text: "OK",
+            onPress: () => console.log("ok")
+          }
+        ],
+        { cancelable: true }
+      );
     }
   };
 
