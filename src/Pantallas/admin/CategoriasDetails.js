@@ -146,16 +146,9 @@ export default class CategoriasDetails extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}
-        style={styles.mainContainer}
-      >
-        <View style={styles.mainContainer}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="#rgba(92, 61,123, 0.9)"
-          />
-          <Container>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.main}>
+        <Container style={{ backgroundColor: "white" }}>
+          <Content padder>
             <Form>
               <Item floatingLabel>
                 <Icon active name="md-bookmarks" />
@@ -174,16 +167,16 @@ export default class CategoriasDetails extends Component {
                   value={this.state.Nombre}
                 />
               </Item>
+
               <Item floatingLabel>
                 <Icon active name="md-create" />
-
                 <Label>Descripcion</Label>
                 <Input
-                  returnKeyType={"done"}
+                  returnKeyType={"next"}
                   getRef={c => (this._inputDesc = c)}
                   // onSubmitEditing={event => {
-                  //   this._inputCosto._root.focus();
-                  // }}
+                  //     this._inputCosto._root.focus();
+                  //   }}
                   onChangeText={txtDes =>
                     this.setState({
                       Descripcion: txtDes
@@ -193,38 +186,41 @@ export default class CategoriasDetails extends Component {
                 />
               </Item>
             </Form>
-          </Container>
+          </Content>
+          <Footer style={{ paddingHorizontal: 10, paddingVertical: 0 }}>
+            <FooterTab padder style={{ flex: 1, margin: 5 }}>
+              <Button
+                block
+                danger
+                iconLeft
+                onPress={this.DeleteRecord}
+                style={{ flexDirection: "row", justifyContent: "center" }}
+              >
+                <Icon
+                  name="ios-trash-outline"
+                  style={{ fontSize: 30, color: "white" }}
+                />
+                <Text style={styles.bold}> Eliminar</Text>
+              </Button>
+            </FooterTab>
 
-          <Container style={styles.footer2}>
-            <Item>
-              <Container style={{ flexDirection: "row" }}>
-                <Container style={{ flex: 1, paddingTop: 15, marginRight: 10 }}>
-                  <Button
-                    block
-                    danger
-                    iconLeft
-                    style={styles.btn}
-                    onPress={this.DeleteRecord}
-                  >
-                    <Icon name="ios-trash-outline" color="black" />
-                    <Text style={styles.bold}> Eliminar</Text>
-                  </Button>
-                </Container>
-                <Container style={{ flex: 1, paddingTop: 15 }}>
-                  <Button
-                    block
-                    iconLeft
-                    style={styles.btn}
-                    onPress={this.UpdateRecord}
-                  >
-                    <Icon name="ios-sync-outline" color="black" />
-                    <Text style={styles.bold}> Actualizar</Text>
-                  </Button>
-                </Container>
-              </Container>
-            </Item>
-          </Container>
-        </View>
+            <FooterTab padder style={{ flex: 1, margin: 5 }}>
+              <Button
+                block
+                primary
+                iconLeft
+                onPress={this.UpdateRecord}
+                style={{ flexDirection: "row", justifyContent: "center" }}
+              >
+                <Icon
+                  name="ios-sync-outline"
+                  style={{ fontSize: 25, color: "white" }}
+                />
+                <Text style={styles.bold}> Actualizar</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Container>
       </TouchableWithoutFeedback>
     );
     //   <View style={styles.MainContainer}>

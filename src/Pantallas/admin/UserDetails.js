@@ -165,16 +165,9 @@ export default class UserDetails extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}
-        style={styles.mainContainer}
-      >
-        <View style={styles.mainContainer}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="#rgba(92, 61,123, 0.9)"
-          />
-          <Container style={styles.frm}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.main}>
+        <Container style={{ backgroundColor: "white" }}>
+          <Content padder>
             <Form>
               <Item floatingLabel>
                 <Icon active name="md-bookmarks" />
@@ -244,114 +237,118 @@ export default class UserDetails extends Component {
                 />
               </Item>
             </Form>
-          </Container>
+          </Content>
+          <Footer style={{ paddingHorizontal: 10, paddingVertical: 0 }}>
+            <FooterTab padder style={{ flex: 1, margin: 5 }}>
+              <Button
+                block
+                danger
+                iconLeft
+                onPress={this.DeleteRecord}
+                style={{ flexDirection: "row", justifyContent: "center" }}
+              >
+                <Icon
+                  name="ios-trash-outline"
+                  style={{ fontSize: 30, color: "white" }}
+                />
+                <Text style={styles.bold}> Eliminar</Text>
+              </Button>
+            </FooterTab>
 
-          <Container style={styles.footer2}>
-            <Item>
-              <Container style={{ flexDirection: "row" }}>
-                <Container style={{ flex: 1, paddingTop: 15, marginRight: 10 }}>
-                  <Button
-                    block
-                    danger
-                    iconLeft
-                    style={styles.btn}
-                    onPress={this.DeleteRecord}
-                  >
-                    <Icon name="ios-trash-outline" color="black" />
-                    <Text style={styles.bold}> Eliminar</Text>
-                  </Button>
-                </Container>
-                <Container style={{ flex: 1, paddingTop: 15 }}>
-                  <Button
-                    block
-                    iconLeft
-                    style={styles.btn}
-                    onPress={this.UpdateRecord}
-                  >
-                    <Icon name="ios-sync-outline" color="black" />
-                    <Text style={styles.bold}> Actualizar</Text>
-                  </Button>
-                </Container>
-              </Container>
-            </Item>
-          </Container>
-        </View>
+            <FooterTab padder style={{ flex: 1, margin: 5 }}>
+              <Button
+                block
+                primary
+                iconLeft
+                onPress={this.UpdateRecord}
+                style={{ flexDirection: "row", justifyContent: "center" }}
+              >
+                <Icon
+                  name="ios-sync-outline"
+                  style={{ fontSize: 25, color: "white" }}
+                />
+                <Text style={styles.bold}> Actualizar</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Container>
       </TouchableWithoutFeedback>
-      // <View style={styles.MainContainer}>
-      //   <TextInput
-      //     placeholder="Nombre"
-      //     value={this.state.Nombre}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Nombre: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-      //   <TextInput
-      //     placeholder="Correo"
-      //     value={this.state.Correo}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Correo: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-
-      //   <TextInput
-      //     placeholder="Telefono"
-      //     value={this.state.Telefono}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Telefono: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-
-      //   <TextInput
-      //     placeholder="Direccion"
-      //     value={this.state.Direccion}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Direccion: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-      //   <TextInput
-      //     placeholder="Estado"
-      //     value={this.state.Estado}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Estado: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-      //   <TextInput
-      //     placeholder="Municipio"
-      //     value={this.state.Municipio}
-      //     onChangeText={TextInputValue =>
-      //       this.setState({ Municipio: TextInputValue })
-      //     }
-      //     underlineColorAndroid="transparent"
-      //     style={styles.TextInputStyleClass}
-      //   />
-
-      //   <TouchableOpacity
-      //     activeOpacity={0.4}
-      //     style={styles.TouchableOpacityStyle}
-      //     onPress={this.UpdateStudentRecord}
-      //   >
-      //     <Text style={styles.TextStyle}>Actualizar Datos</Text>
-      //   </TouchableOpacity>
-
-      //   <TouchableOpacity
-      //     activeOpacity={0.4}
-      //     style={styles.TouchableOpacityStyle}
-      //     onPress={this.DeleteStudentRecord}
-      //   >
-      //     <Text style={styles.TextStyle}>Eliminar Usuario</Text>
-      //   </TouchableOpacity>
-      // </View>
     );
+
+    // <View style={styles.MainContainer}>
+    //   <TextInput
+    //     placeholder="Nombre"
+    //     value={this.state.Nombre}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Nombre: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+    //   <TextInput
+    //     placeholder="Correo"
+    //     value={this.state.Correo}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Correo: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+
+    //   <TextInput
+    //     placeholder="Telefono"
+    //     value={this.state.Telefono}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Telefono: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+
+    //   <TextInput
+    //     placeholder="Direccion"
+    //     value={this.state.Direccion}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Direccion: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+    //   <TextInput
+    //     placeholder="Estado"
+    //     value={this.state.Estado}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Estado: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+    //   <TextInput
+    //     placeholder="Municipio"
+    //     value={this.state.Municipio}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Municipio: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+
+    //   <TouchableOpacity
+    //     activeOpacity={0.4}
+    //     style={styles.TouchableOpacityStyle}
+    //     onPress={this.UpdateStudentRecord}
+    //   >
+    //     <Text style={styles.TextStyle}>Actualizar Datos</Text>
+    //   </TouchableOpacity>
+
+    //   <TouchableOpacity
+    //     activeOpacity={0.4}
+    //     style={styles.TouchableOpacityStyle}
+    //     onPress={this.DeleteStudentRecord}
+    //   >
+    //     <Text style={styles.TextStyle}>Eliminar Usuario</Text>
+    //   </TouchableOpacity>
+    // </View>
   }
 }
 const styles = StyleSheet.create({
