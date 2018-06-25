@@ -117,7 +117,6 @@ export default class CategoriaRegistrar extends Component {
     });
   };
   Procesar_Registro = () => {
-    console.warn(this.state);
     if (this.state.Nombre == null || this.state.Descripcion == null) {
       Alert.alert(
         "Lo sentimos!",
@@ -177,11 +176,11 @@ export default class CategoriaRegistrar extends Component {
 
                 <Label>Descripcion</Label>
                 <Input
-                  returnKeyType={"next"}
+                  returnKeyType={"done"}
                   getRef={c => (this._inputDesc = c)}
-                  onSubmitEditing={event => {
-                    this._inputCosto._root.focus();
-                  }}
+                  // onSubmitEditing={event => {
+                  //   this._inputCosto._root.focus();
+                  // }}
                   onChangeText={txtDes =>
                     this.setState({
                       Descripcion: txtDes
