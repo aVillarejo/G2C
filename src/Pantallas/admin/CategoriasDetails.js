@@ -187,7 +187,13 @@ export default class CategoriasDetails extends Component {
               </Item>
             </Form>
           </Content>
-          <Footer style={{ paddingHorizontal: 10, paddingVertical: 0 }}>
+          <Footer
+            style={{
+              paddingHorizontal: 10,
+              paddingVertical: 0,
+              backgroundColor: "white"
+            }}
+          >
             <FooterTab padder style={{ flex: 1, margin: 5 }}>
               <Button
                 block
