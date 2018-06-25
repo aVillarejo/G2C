@@ -210,7 +210,7 @@ export default class CategoriasDetails extends Component {
               </Button>
             </FooterTab>
 
-            <FooterTab padder style={{ flex: 1, margin: 5 }}>
+            <FooterTab padder style={{ flex: 1, margin: 10 }}>
               <Button
                 block
                 primary
