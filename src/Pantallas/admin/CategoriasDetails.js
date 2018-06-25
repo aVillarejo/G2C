@@ -60,7 +60,7 @@ export default class CategoriasDetails extends Component {
     };
   };
 
-  UpdateStudentRecord = () => {
+  UpdateRecord = () => {
     fetch(`${ServerURL}/categorias/actualizar.php`, {
       method: "POST",
       headers: {
@@ -93,38 +93,55 @@ export default class CategoriasDetails extends Component {
       });
   };
 
-  DeleteStudentRecord = () => {
-    fetch(`${ServerURL}/categorias/eliminar.php`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Id: this.state.Id
-      })
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        // Showing response message coming from server after inserting records.
-        Alert.alert(
-          "Aviso!",
-          responseJson,
-          [
-            {
-              text: "Aceptar",
-              //onPress: () => this.props.navigation.navigate("UsersList")
-              onPress: () => this.props.navigation.navigate("CategoriasList")
-            }
-          ],
-          { cancelable: false }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  DeleteRecord = () => {
+    Alert.alert(
+      "Atencion",
+      "Realmente quiere eliminar el elemento",
+      [
+        {
+          text: "Si",
+          onPress: () => {
+            fetch(`${ServerURL}/categorias/eliminar.php`, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                Id: this.state.Id
+              })
+            })
+              .then(response => response.json())
+              .then(responseJson => {
+                // Showing response message coming from server after inserting records.
+                Alert.alert(
+                  "Aviso!",
+                  responseJson,
+                  [
+                    {
+                      text: "Aceptar",
+                      //onPress: () => this.props.navigation.navigate("UsersList")
+                      onPress: () =>
+                        this.props.navigation.navigate("CategoriasList")
+                    }
+                  ],
+                  { cancelable: false }
+                );
+              })
+              .catch(error => {
+                console.error(error);
+              });
 
-    this.props.navigation.navigate("First");
+            this.props.navigation.navigate("First");
+          }
+        },
+        {
+          text: "No",
+          onPress: () => console.log("ok")
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
   render() {
@@ -187,7 +204,7 @@ export default class CategoriasDetails extends Component {
                     danger
                     iconLeft
                     style={styles.btn}
-                    onPress={this.DeleteStudentRecord}
+                    onPress={this.DeleteRecord}
                   >
                     <Icon name="ios-trash-outline" color="black" />
                     <Text style={styles.bold}> Eliminar</Text>
@@ -198,7 +215,7 @@ export default class CategoriasDetails extends Component {
                     block
                     iconLeft
                     style={styles.btn}
-                    onPress={this.UpdateStudentRecord}
+                    onPress={this.UpdateRecord}
                   >
                     <Icon name="ios-sync-outline" color="black" />
                     <Text style={styles.bold}> Actualizar</Text>
@@ -233,7 +250,7 @@ export default class CategoriasDetails extends Component {
     //     <TouchableOpacity
     //       activeOpacity={0.4}
     //       style={styles.TouchableOpacityStyle}
-    //       onPress={this.UpdateStudentRecord}
+    //       onPress={this.UpdateRecord}
     //     >
     //       <Text style={styles.TextStyle}>Actualizar Datos</Text>
     //     </TouchableOpacity>
@@ -241,7 +258,7 @@ export default class CategoriasDetails extends Component {
     //     <TouchableOpacity
     //       activeOpacity={0.4}
     //       style={styles.TouchableOpacityStyle}
-    //       onPress={this.DeleteStudentRecord}
+    //       onPress={this.DeleteRecord}
     //     >
     //       <Text style={styles.TextStyle}>Eliminar Categoria</Text>
     //     </TouchableOpacity>

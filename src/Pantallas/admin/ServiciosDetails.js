@@ -135,37 +135,54 @@ export default class ServiciosDetails extends Component {
   };
 
   DeleteRecord = () => {
-    fetch(`${ServerURL}/servicios/eliminar.php`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Id: this.state.Id
-      })
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        // Showing response message coming from server after inserting records.
-        Alert.alert(
-          "Aviso!",
-          responseJson,
-          [
-            {
-              text: "Aceptar",
-              //onPress: () => this.props.navigation.navigate("UsersList")
-              onPress: () => this.props.navigation.navigate("ServiciosList")
-            }
-          ],
-          { cancelable: false }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    Alert.alert(
+      "Atencion",
+      "Realmente quiere eliminar el elemento",
+      [
+        {
+          text: "Si",
+          onPress: () => {
+            fetch(`${ServerURL}/servicios/eliminar.php`, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                Id: this.state.Id
+              })
+            })
+              .then(response => response.json())
+              .then(responseJson => {
+                // Showing response message coming from server after inserting records.
+                Alert.alert(
+                  "Aviso!",
+                  responseJson,
+                  [
+                    {
+                      text: "Aceptar",
+                      //onPress: () => this.props.navigation.navigate("UsersList")
+                      onPress: () =>
+                        this.props.navigation.navigate("ServiciosList")
+                    }
+                  ],
+                  { cancelable: false }
+                );
+              })
+              .catch(error => {
+                console.error(error);
+              });
 
-    this.props.navigation.navigate("First");
+            this.props.navigation.navigate("First");
+          }
+        },
+        {
+          text: "No",
+          onPress: () => console.log("ok")
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
   render() {
