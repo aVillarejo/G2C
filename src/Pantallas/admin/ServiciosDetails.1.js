@@ -16,10 +16,6 @@ import {
 import {
   Button,
   List,
-  ListItem,
-  Left,
-  Body,
-  Right,
   Container,
   Header,
   Content,
@@ -32,7 +28,7 @@ import {
   Footer,
   Picker
 } from "native-base";
-import { SearchBar } from "react-native-elements";
+import { ListItem, SearchBar } from "react-native-elements";
 import ServerURL from "../../Config/ServerURL";
 import { NavigationActions } from "react-navigation";
 
@@ -171,8 +167,12 @@ export default class ServiciosDetails extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.main}>
-        <Container style={{ backgroundColor: "white" }}>
-          <Content padder>
+        <View style={styles.mainContainer}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#rgba(92, 61,123, 0.9)"
+          />
+          <Container style={styles.frm}>
             <Form>
               <Item floatingLabel>
                 <Icon active name="md-bookmarks" />
@@ -191,9 +191,9 @@ export default class ServiciosDetails extends Component {
                   value={this.state.Nombre}
                 />
               </Item>
-
               <Item floatingLabel>
                 <Icon active name="md-create" />
+
                 <Label>Descripcion</Label>
                 <Input
                   returnKeyType={"next"}
@@ -212,6 +212,7 @@ export default class ServiciosDetails extends Component {
 
               <Item floatingLabel>
                 <Icon active name="logo-usd" />
+
                 <Label>Costo</Label>
                 <Input
                   keyboardType="numeric"
@@ -226,79 +227,146 @@ export default class ServiciosDetails extends Component {
                   value={this.state.Costo}
                 />
               </Item>
-
               <Item
-                picker
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
-                  marginTop: 10
+                  height: 100,
+                  backgroundColor: "black"
                 }}
               >
-                <List>
-                  <ListItem icon>
-                    <Left>
-                      <Icon name="pricetags" />
-                    </Left>
-                    <Text style={{ color: "black" }}>Categoria: </Text>
-                  </ListItem>
-                </List>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="ios-arrow-down-outline" />}
-                  style={{}}
-                  placeholder="Sin Categoria:"
-                  iosHeader="Categorias"
-                  placeholderStyle={{ color: "black" }}
-                  placeholderIconColor="black"
-                  selectedValue={this.state.Categoria}
-                  onValueChange={this.onValueChange.bind(this)}
+                <Container
+                  style={{
+                    flexDirection: "row",
+                    height: 100,
+                    backgroundColor: "black"
+                  }}
                 >
-                  {this.state.data.map((item, index) => {
-                    return (
-                      <Item label={item.Nombre} value={item.Id} key={index} />
-                    );
-                  })}
-                </Picker>
+                  <Container
+                    style={{ flex: 1, flexDirection: "row", paddingTop: 15 }}
+                  >
+                    <Item disabled>
+                      <Input disabled placeholder=" Categoria:" />
+                    </Item>
+                  </Container>
+                  <Container style={{ flex: 1, flexDirection: "row" }}>
+                    <Picker
+                      mode="dropdown"
+                      placeholder="Sin Categoria"
+                      iosHeader="Categorias"
+                      iosIcon={<Icon name="ios-arrow-down-outline" />}
+                      style={{ width: undefined, marginTop: 20 }}
+                      selectedValue={this.state.Categoria}
+                      onValueChange={this.onValueChange.bind(this)}
+                    >
+                      {this.state.data.map((item, index) => {
+                        return (
+                          <Item
+                            label={item.Nombre}
+                            value={item.Id}
+                            key={index}
+                          />
+                        );
+                      })}
+                    </Picker>
+                  </Container>
+                </Container>
               </Item>
             </Form>
-          </Content>
-          <Footer style={{ paddingHorizontal: 10, paddingVertical: 0 }}>
-            <FooterTab padder style={{ flex: 1, margin: 5 }}>
-              <Button
-                block
-                danger
-                iconLeft
-                onPress={this.DeleteRecord}
-                style={{ flexDirection: "row", justifyContent: "center" }}
-              >
-                <Icon
-                  name="ios-trash-outline"
-                  style={{ fontSize: 30, color: "white" }}
-                />
-                <Text style={styles.bold}> Eliminar</Text>
-              </Button>
-            </FooterTab>
+          </Container>
 
-            <FooterTab padder style={{ flex: 1, margin: 5 }}>
-              <Button
-                block
-                primary
-                iconLeft
-                onPress={this.UpdateRecord}
-                style={{ flexDirection: "row", justifyContent: "center" }}
+          <Container style={styles.footer2}>
+            <Item>
+              <Container
+                style={{
+                  //flex: 1,
+                  flexDirection: "row",
+                  backgroundColor: "red"
+                }}
               >
-                <Icon
-                  name="ios-sync-outline"
-                  style={{ fontSize: 25, color: "white" }}
-                />
-                <Text style={styles.bold}> Actualizar</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
-        </Container>
+                <Container
+                //style={{ flex: 1, paddingTop: 15, marginRight: 10 }}
+                >
+                  <Button
+                    block
+                    danger
+                    iconLeft
+                    style={styles.btn}
+                    onPress={this.DeleteRecord}
+                  >
+                    <Icon name="ios-trash-outline" color="black" />
+                    <Text style={styles.bold}> Eliminar</Text>
+                  </Button>
+                </Container>
+                <Container style={{ flex: 1, paddingTop: 15 }}>
+                  <Button
+                    block
+                    iconLeft
+                    style={styles.btn}
+                    onPress={this.UpdateRecord}
+                  >
+                    <Icon name="ios-sync-outline" color="black" />
+                    <Text style={styles.bold}> Actualizar</Text>
+                  </Button>
+                </Container>
+              </Container>
+            </Item>
+          </Container>
+        </View>
       </TouchableWithoutFeedback>
     );
+    // <View style={styles.MainContainer}>
+    //   <TextInput
+    //     placeholder="Nombre"
+    //     value={this.state.Nombre}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Nombre: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+    //   <View style={{ flexDirection: "row", flex: 0 }}>
+    //     <View style={{ flexDirection: "row", flex: 0 }}>
+    //       <Text>Descripcion</Text>
+    //     </View>
+    //     <View style={{ flexDirection: "row", flex: 0 }}>
+    //       <TextInput
+    //         placeholder="Descripcion"
+    //         value={this.state.Descripcion}
+    //         onChangeText={TextInputValue =>
+    //           this.setState({ Descripcion: TextInputValue })
+    //         }
+    //         underlineColorAndroid="transparent"
+    //         style={styles.TextInputStyleClass}
+    //       />
+    //     </View>
+    //   </View>
+
+    //   <TextInput
+    //     placeholder="Costo"
+    //     value={this.state.Costo}
+    //     onChangeText={TextInputValue =>
+    //       this.setState({ Costo: TextInputValue })
+    //     }
+    //     underlineColorAndroid="transparent"
+    //     style={styles.TextInputStyleClass}
+    //   />
+
+    //   <TouchableOpacity
+    //     activeOpacity={0.4}
+    //     style={styles.TouchableOpacityStyle}
+    //     onPress={this.UpdateRecord}
+    //   >
+    //     <Text style={styles.TextStyle}>Actualizar Datos</Text>
+    //   </TouchableOpacity>
+
+    //   <TouchableOpacity
+    //     activeOpacity={0.4}
+    //     style={styles.TouchableOpacityStyle}
+    //     onPress={this.DeleteRecord}
+    //   >
+    //     <Text style={styles.TextStyle}>Eliminar Categoria</Text>
+    //   </TouchableOpacity>
+    // </View>
   }
 }
 const styles = StyleSheet.create({
@@ -321,7 +389,7 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
     //alignItems: "center",
     //paddingBottom: 10,
-    backgroundColor: "red"
+    backgroundColor: "blue"
   },
   FormContainer: {
     flexGrow: 1,
@@ -405,9 +473,8 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   frm: {
-    flex: 1,
+    flex: 0,
     justifyContent: "space-between"
-
     //alignItems: "center"
   }
 });

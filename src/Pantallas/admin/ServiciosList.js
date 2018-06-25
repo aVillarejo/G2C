@@ -176,11 +176,14 @@ export default class CategoriasList extends Component {
       );
     }
     return (
+
+      <View style={{backgroundColor:'white'}}> 
       <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
         <StatusBar
           barStyle="light-content"
           backgroundColor="#rgba(92, 61,123, 0.9)"
         />
+        
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
@@ -195,19 +198,34 @@ export default class CategoriasList extends Component {
                 hideChevron
                 roundAvatar
                 title={`${item.Nombre}`}
-                subtitle={`${item.Categoria}`} //   <View> // rightTitle={
-                //     <Text>{`$${item.Costo} MXN`}</Text>
-                //   </View>
-                // }
+                titleContainerStyle={{                  
+              }}
+                subtitle={`${item.Categoria}`} 
+                subtitleContainerStyle={{                  
+              }}
                 rightTitle={`$${item.Costo} MXN`}
+                
+                rightTitleContainerStyle={{
+                  flex:-1, 
+                  alignItems: 'flex-end', 
+                  justifyContent: 'center',
+                }}
                 rightTitleStyle={{
-                  flex: 1,
-                  flexDirection: "row",
-                  marginRight: 0,
-                  color: "black"
-                }} //   value: `$${item.Costo} MXN`, // badge={{
-                //   textStyle: { color: "white" },
-                //   containerStyle: { marginTop: -20 }
+                  // //flex: 1,
+                  // justifyContent:'flex-end',
+                  // alignItems: 'flex-end',
+                  // flexDirection: "row-reverse",
+                  // //justifyContent:'flex-end', 
+                  // //backgroundColor:'red',
+                  // // marginRight: 0,
+                  marginRight: 5, color: 'black'
+
+
+                  // marginRight: 0
+
+
+
+                }} //   containerStyle: { marginTop: -20 } //   textStyle: { color: "white" }, //   value: `$${item.Costo} MXN`, // badge={{
                 // }} // avatar={{
                 //   uri:
                 //     item.Tipo != 0
@@ -228,6 +246,7 @@ export default class CategoriasList extends Component {
           onEndReachedThreshold={50}
         />
       </List>
+      </View>
     );
   }
 }
